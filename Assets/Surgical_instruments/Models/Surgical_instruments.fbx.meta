@@ -1,0 +1,229 @@
+fileFormatVersion: 2
+guid: 4fdf86ba22f1921498bebda32af89aea
+timeCreated: 1504289365
+licenseType: Store
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Forceps
+    100002: Grasping_forceps
+    100004: Lancet
+    100006: Main
+    100008: Napkin
+    100010: Part01
+    100012: Part02
+    100014: Part1
+    100016: Part2
+    100018: Piston
+    100020: Scissors
+    100022: Surgical_hook
+    100024: //RootNode
+    100026: Surgical_mirror
+    100028: Surgical_saw_01
+    100030: Surgical_saw_02
+    100032: Syringe
+    100034: Tray
+    100036: Tray1
+    100038: Tray2
+    400000: Forceps
+    400002: Grasping_forceps
+    400004: Lancet
+    400006: Main
+    400008: Napkin
+    400010: Part01
+    400012: Part02
+    400014: Part1
+    400016: Part2
+    400018: Piston
+    400020: Scissors
+    400022: Surgical_hook
+    400024: //RootNode
+    400026: Surgical_mirror
+    400028: Surgical_saw_01
+    400030: Surgical_saw_02
+    400032: Syringe
+    400034: Tray
+    400036: Tray1
+    400038: Tray2
+    2300000: Forceps
+    2300002: Lancet
+    2300004: Main
+    2300006: Napkin
+    2300008: Part01
+    2300010: Part02
+    2300012: Part1
+    2300014: Part2
+    2300016: Piston
+    2300018: Surgical_hook
+    2300020: Surgical_mirror
+    2300022: Surgical_saw_01
+    2300024: Surgical_saw_02
+    2300026: Tray
+    2300028: Tray1
+    2300030: Tray2
+    3300000: Forceps
+    3300002: Lancet
+    3300004: Main
+    3300006: Napkin
+    3300008: Part01
+    3300010: Part02
+    3300012: Part1
+    3300014: Part2
+    3300016: Piston
+    3300018: Surgical_hook
+    3300020: Surgical_mirror
+    3300022: Surgical_saw_01
+    3300024: Surgical_saw_02
+    3300026: Tray
+    3300028: Tray1
+    3300030: Tray2
+    4300000: Forceps
+    4300002: Main
+    4300004: Piston
+    4300006: Part1
+    4300008: Part2
+    4300010: Lancet
+    4300012: Part01
+    4300014: Part02
+    4300016: Surgical_saw_01
+    4300018: Surgical_saw_02
+    4300020: Surgical_hook
+    4300022: Surgical_mirror
+    4300024: Tray
+    4300026: Tray1
+    4300028: Tray2
+    4300030: Napkin
+    7400000: Open
+    7400002: Close
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 0
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Open
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 10
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Close
+      takeName: Take 001
+      firstFrame: 11
+      lastFrame: 15
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
