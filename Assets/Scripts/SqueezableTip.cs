@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class SqueezableTip : MonoBehaviour
 {
 
@@ -19,16 +20,16 @@ public class SqueezableTip : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other) {
-        Needle needleObject = other.GetComponent<Needle>();
-        if(needleObject) {
-            needle = needleObject;    
+        NeedleCollider needleCollider = other.GetComponent<NeedleCollider>();
+        if(needleCollider) {
+            needle = needleCollider.GetNeedle();;    
 		}
 	}
 
     void OnTriggerExit(Collider other) {
-        Needle needleObject = other.GetComponent<Needle>();
-        if(needleObject) {
-            needle = null;    
+        NeedleCollider needleCollider = other.GetComponent<NeedleCollider>();
+        if(needleCollider) {
+            needle = null; 
 		}
 	}
 }

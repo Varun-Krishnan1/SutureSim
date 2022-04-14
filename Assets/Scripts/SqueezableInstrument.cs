@@ -14,12 +14,16 @@ public class SqueezableInstrument : MonoBehaviour
     public GameObject instrumentPart2; 
     public Transform pivot1; // -- where to rotate part1 from (if single pivot object such as scissor set pivot1 and pivot2 as same transform!)
     public Transform pivot2; // -- where to rotate part2 from 
-    public SqueezableTip squeezeableTip; 
-    public Text needlePopup; // -- debugging 
+    public SqueezableTip squeezableTip; // -- game object on tip of instrument that detects if needle collider is touching
 
     [Header("Instrument Paramaters")]
     public float pivotScale; // -- how much to rotate the parts of the instrument 
     [Range(0.0f,1.0f)] public float closedCutoff; // -- at what point of previousAxis to consider instrument closed 
+
+    [Header("Logging")]
+    public bool logging; // -- for popup text on top of instrument or in console 
+    public Text needlePopup; // -- where debug text is shown in game  
+
 
     // -- PRIVATE VARIABLES -- 
     private Interactable interactable;
@@ -36,19 +40,29 @@ public class SqueezableInstrument : MonoBehaviour
     private float justClosedTimer = 1f; // -- used for "cayote opening" "
     private float justClosedCurTimer; // -- used for "cayote opening"
 
+    private bool positionFrozen; 
+    public Vector3 frozenPosition; 
+    public Vector3 frozenRotation; 
 
+    public bool frozenX;
+    public bool frozenY; 
+    public bool frozenZ; 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
         interactable = GetComponent<Interactable>();
+
+        if(!logging) {
+            needlePopup.transform.parent.gameObject.SetActive(false);  // -- hide entire canvas 
+		}
     }
 
     // Update is called once per frame
     void Update()
     {
         // -- Debugging 
-        if(squeezeableTip.needle) {
+        if(squeezableTip.needle) {
             if(curNeedle) {
                 DebugLog("Needle attached", true, false);
 			}
@@ -67,14 +81,18 @@ public class SqueezableInstrument : MonoBehaviour
             grip = gripSqueeze.GetAxis(interactable.attachedToHand.handType);
         }
 
-        if(grip != previousAxis) {
-            
-            if(grip > closedCutoff) {
-                closed = true;   
-		    }
-            else {
-                closed = false;   
-		    }
+
+        if (grip != previousAxis)
+        {
+
+            if (grip > closedCutoff)
+            {
+                closed = true;
+            }
+            else
+            {
+                closed = false;
+            }
 
             instrumentPart1.transform.RotateAround(pivot1.position, instrumentPart1.transform.forward * -1, (pivotScale * previousAxis));
             instrumentPart2.transform.RotateAround(pivot2.position, instrumentPart2.transform.forward, (pivotScale * previousAxis));
@@ -84,47 +102,50 @@ public class SqueezableInstrument : MonoBehaviour
 
             instrumentPart1.transform.RotateAround(pivot1.position, rotateAmount1, pivotScale * grip);
             instrumentPart2.transform.RotateAround(pivot2.position, rotateAmount2, pivotScale * grip);
-            
+
             // -- Just closed
-            if(closed && previousAxis < closedCutoff) {
-                justClosedCurTimer = justClosedTimer; 
-			}
+            if (closed && previousAxis < closedCutoff)
+            {
+                justClosedCurTimer = justClosedTimer;
+            }
             // -- Just released 
-            else if(!closed && previousAxis > closedCutoff) {
-                justClosedCurTimer = 0f; 
-                ReleaseNeedle(); 
-			}
+            else if (!closed && previousAxis > closedCutoff)
+            {
+                justClosedCurTimer = 0f;
+                ReleaseNeedle();
+            }
             previousAxis = grip;
-		}
+        }
 
-        if(justClosedCurTimer > 0) {
-            Needle needle = squeezeableTip.needle; 
+        if (justClosedCurTimer > 0)
+        {
+            Needle needle = squeezableTip.needle;
 
-            if(needle) {
-                AttachNeedle(needle); 
-			}  
+            if (needle)
+            {
+                AttachNeedle(needle);
+            }
 
-            justClosedCurTimer -= Time.deltaTime; 
-		}
-
+            justClosedCurTimer -= Time.deltaTime;
+        }
 
     }
 
     void DebugLog(string text, bool onPopup, bool inConsole) {
-        if(onPopup) {
-            needlePopup.text = text;
-		}
-        if(inConsole) {
-            Debug.Log(text);   
+        if(logging) {
+            if(onPopup) {
+                needlePopup.text = text;
+		    }
+            if(inConsole) {
+                Debug.Log(text);   
+		    }
 		}
 	}
 
     void AttachNeedle(Needle needle) {
         if(!curNeedle) {
             DebugLog("Attaching!", false, true);
-
-            needle.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
-            needle.gameObject.transform.parent = this.transform; 
+            needle.stateMachine.currentState.InstrumentGrab(this); // -- let FSM decide what to do 
 
             curNeedle = needle; 
 		}
@@ -134,14 +155,7 @@ public class SqueezableInstrument : MonoBehaviour
     void ReleaseNeedle() {
         if(curNeedle) {
             DebugLog("Releasing", false, true);
-
-            // -- if it hasn't yet been transferred to another instrument 
-            if(curNeedle.gameObject.transform.parent == this.transform) {
-                curNeedle.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None; 
-                curNeedle.transform.parent = null; 
-			}
-            // -- if already transferred do nothing 
-			// PASS  
+            curNeedle.stateMachine.currentState.InstrumentDrop(this); // -- let FSM decide what to do 
 
             curNeedle = null; 
 
@@ -151,5 +165,39 @@ public class SqueezableInstrument : MonoBehaviour
 
     public bool isClosed() {
         return closed; 
+	}
+
+        
+    void LateUpdate() {
+        if(positionFrozen) {
+            transform.position = new Vector3(frozenPosition.x, transform.position.y, transform.position.z);
+
+            float x = transform.rotation.eulerAngles.x; 
+            float y = transform.rotation.eulerAngles.y; 
+            float z = transform.rotation.eulerAngles.z; 
+            if(frozenX) {
+                x = frozenRotation.x;      
+			}
+            if(frozenY) {
+                y = frozenRotation.y;      
+			}
+            if(frozenZ) {
+                z = frozenRotation.z;      
+			}
+            transform.eulerAngles = new Vector3(x, y, z); 
+		}
+	}
+
+    public void FreezePosition() {
+        if(!positionFrozen) {
+            frozenPosition = transform.position;
+            frozenRotation = transform.rotation.eulerAngles; 
+            positionFrozen = true; 
+		}
+
+	}
+
+    public void UnfreezePosition() {
+        if(positionFrozen) positionFrozen = false; 
 	}
 }

@@ -6,8 +6,7 @@ TagManager:
   tags:
   - projectile
   - FxTemporaire
-  - Needle
-  - SqueezableTip
+  - Wound
   layers:
   - Default
   - TransparentFX
